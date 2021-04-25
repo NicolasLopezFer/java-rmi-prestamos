@@ -1,9 +1,14 @@
 package com.tallerdistri;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
-public class SolicitudImplementation implements SolicitudInterface{
+public class SolicitudImplementation extends UnicastRemoteObject implements SolicitudInterface{
 
+
+    public SolicitudImplementation() throws RemoteException {
+        super();
+    }
 
     @Override
     public String realizarSolicitud(String solicitud) throws RemoteException {
