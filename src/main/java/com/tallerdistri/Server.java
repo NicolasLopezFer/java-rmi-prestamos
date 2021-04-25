@@ -11,7 +11,7 @@ public class Server {
 
         System.setProperty("java.rmi.server.hostname", "25.16.253.86");
 
-        Registry registry = LocateRegistry.createRegistry(5099);
+        Registry registry = LocateRegistry.createRegistry(10005);
 
         registry.rebind("proceso", new SolicitudImplementation());
 

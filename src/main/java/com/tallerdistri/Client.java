@@ -8,7 +8,6 @@ import java.rmi.RemoteException;
 public class Client {
     public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException {
 
-        System.setProperty("jnava.rmi.server.hostname", "25.9.62.240");
         SolicitudInterface solInt = (SolicitudInterface) Naming.lookup("rmi://25.16.253.86:10005/proceso");
 
         String solicitud = "P,2,2";
