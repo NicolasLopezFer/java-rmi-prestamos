@@ -4,13 +4,12 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-import com.tallerdistri.SolicitudImplementation;
 
 public class Server {
     public static void main(String[] args) throws RemoteException{
 
 
-        System.setProperty("java.rmi.server.hostname", "25.16.253.96");
+        System.setProperty("java.rmi.server.hostname", "25.16.253.86");
 
         Registry registry = LocateRegistry.createRegistry(5099);
 
