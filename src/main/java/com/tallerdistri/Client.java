@@ -15,15 +15,13 @@ public class Client {
         Scanner myReader = new Scanner(myObj);
         while (myReader.hasNextLine()) {
             String data = myReader.nextLine();
-            System.out.println(data);
-
 
             //Send to server
             SolicitudInterface solInt = (SolicitudInterface) Naming.lookup("rmi://25.16.253.86:10005/proceso");
 
             String respuesta = solInt.realizarSolicitud(data);
 
-            System.out.println("La respuesta retornada es: " + respuesta);
+            System.out.println(respuesta);
 
         }
         myReader.close();

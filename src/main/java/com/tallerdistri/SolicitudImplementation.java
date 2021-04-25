@@ -109,15 +109,21 @@ public class SolicitudImplementation extends UnicastRemoteObject implements Soli
             } 
             Libro libro=validarLibro(properties[2],libros);
             if(libro==null){
-                return "No existencia";
+                return "No existencia - Libro id: , Total: , Prestados: , Disponibles: ";
             }
-            if(libro.getCantidadTotal()<=libro.getCantidadPrestada()){
-                return "Libro en prestamo";
+
+            int disponibles = libro.getCantidadTotal()-libro.getCantidadPrestada();
+            String librito = "ISBN Libro: "+libro.getIsbn()+" | Total: "+libro.getCantidadTotal()+ " | En Prestamo: "+libro.getCantidadPrestada()+ " | Disponibles: "+disponibles;
+
+            if(disponibles<1){
+                return "Libro en prestamo - " +  librito;
             }
             libro.setCantidadPrestada(libro.getCantidadPrestada()+1);
             actualizarLibro(libro,dirLibros,libros);
+            disponibles = libro.getCantidadTotal()-libro.getCantidadPrestada();
+            librito = "ISBN Libro: "+libro.getIsbn()+" | Total: "+libro.getCantidadTotal()+ " | En Prestamo: "+libro.getCantidadPrestada()+ " | Disponibles: "+disponibles;
 
-            return "Satisfactorio";
+            return "Satisfactorio - " + librito;
         }
         return "";              
     }
