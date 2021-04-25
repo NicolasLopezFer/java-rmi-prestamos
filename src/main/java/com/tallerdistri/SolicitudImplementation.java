@@ -19,9 +19,9 @@ public class SolicitudImplementation extends UnicastRemoteObject implements Soli
 
     @Override
     public String realizarSolicitud(String solicitud) throws RemoteException {
-        String respuesta = generarRespuesta(solicitud); 
-
         System.out.println("Llego solicitud: " + solicitud);
+        
+        String respuesta = generarRespuesta(solicitud); 
 
         return respuesta;
     }
@@ -38,12 +38,8 @@ public class SolicitudImplementation extends UnicastRemoteObject implements Soli
 
         usuarios=leerUsuarios(dirUsuarios);
         libros=leerLibros(dirLibros);
-
-        System.out.println(usuarios.size());
-        System.out.println(libros.size());
         
-        String prestamo="P,2,5003";
-        leerPrestamo(prestamo,usuarios,libros,dirLibros);
+        respuesta = leerPrestamo(solicitud,usuarios,libros,dirLibros);
         
         return respuesta;
     }
@@ -102,28 +98,28 @@ public class SolicitudImplementation extends UnicastRemoteObject implements Soli
         return libros;
     }
 
-    public static void leerPrestamo(String prestamo,ArrayList<Usuario> usuarios,ArrayList<Libro> libros,String dirLibros) {
+    public static String leerPrestamo(String prestamo,ArrayList<Usuario> usuarios,ArrayList<Libro> libros,String dirLibros) {
             
         String[] properties = prestamo.split(",");
         String operacion=properties[0];
         if(operacion.equals("P")){
             Usuario usuario=validarUsuario(Long.parseLong(properties[1]),usuarios);
             if(usuario==null){
-                System.out.println("Error: El usuario recibido no existe en la base de datos");
-                return;
+                return "Usuario inexistente"; 
             } 
             Libro libro=validarLibro(properties[2],libros);
             if(libro==null){
-                System.out.println("Error: El libro recibido no existe en la base de datos");
-                return;
+                return "No existencia";
             }
             if(libro.getCantidadTotal()<=libro.getCantidadPrestada()){
-                System.out.println("No se tiene disponibilidad del libro");
-                return;
+                return "Libro en prestamo";
             }
             libro.setCantidadPrestada(libro.getCantidadPrestada()+1);
-            actualizarLibro(libro,dirLibros,libros); 
-        }              
+            actualizarLibro(libro,dirLibros,libros);
+
+            return "Satisfactorio";
+        }
+        return "";              
     }
 
     public static Libro validarLibro(String isbn,ArrayList<Libro> libros){
@@ -148,11 +144,10 @@ public class SolicitudImplementation extends UnicastRemoteObject implements Soli
             FileWriter fichero = new FileWriter(dirLibros);
             
 			for (Libro l:libros) {
-                String linea=l.getId()+","+l.getIsbn()+","+l.getCantidadTotal()+","+l.getCantidadPrestada();
+                String linea=l.getId()+","+l.getIsbn()+","+ l.getNombre()+ "," +l.getCantidadTotal()+","+l.getCantidadPrestada();
 				fichero.write(linea + "\n");
 			}
 			fichero.close();
-            System.out.println("Libro prestado correctamente");
             return true;
 		} catch (Exception ex) {
 			System.out.println("Error: " + ex.getMessage());
