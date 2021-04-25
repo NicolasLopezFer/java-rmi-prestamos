@@ -6,7 +6,7 @@ import java.rmi.server.UnicastRemoteObject;
 public class SolicitudImplementation extends UnicastRemoteObject implements SolicitudInterface{
 
 
-    public SolicitudImplementation() throws RemoteException {
+    protected SolicitudImplementation() throws RemoteException {
         super();
     }
 

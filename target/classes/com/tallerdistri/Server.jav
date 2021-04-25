@@ -1,4 +1,4 @@
-package com.tallerdistri.Server;
+package com.tallerdistri;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
